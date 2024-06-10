@@ -14,4 +14,6 @@ import java.lang.annotation.Target;
 @Inherited
 public @interface DomainEntity {
 	String[] id();
+
+	boolean aggregate() default false;
 }
