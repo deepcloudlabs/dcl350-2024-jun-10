@@ -20,8 +20,6 @@ import com.example.hr.dto.response.PhotoResponse;
 import com.example.hr.service.HrService;
 import com.example.validation.TcKimlikNo;
 
-import jakarta.validation.constraints.NotBlank;
-
 @RestController
 @RequestScope
 @RequestMapping("/employees")
