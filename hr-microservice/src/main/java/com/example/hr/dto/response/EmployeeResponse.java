@@ -3,10 +3,11 @@ package com.example.hr.dto.response;
 import java.util.List;
 
 import com.example.ddd.DataTransferObject;
+import com.example.ddd.TransferType;
 import com.example.hr.domain.Employee;
 import com.example.hr.domain.FiatCurrency;
 
-@DataTransferObject(Employee.class)
+@DataTransferObject(value=Employee.class,type = TransferType.RESPONSE)
 public class EmployeeResponse {
 	private String identity;
 	private String firstName;

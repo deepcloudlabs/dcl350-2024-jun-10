@@ -1,4 +1,4 @@
-package com.example.ddd;
+package com.example.hexagonal;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -10,7 +10,6 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RUNTIME)
 @Target(TYPE)
-public @interface DataTransferObject {
-	Class<?> value();
-	TransferType type();
+public @interface Adapter {
+	Class<?> port();
 }

@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.annotation.RequestScope;
 
+import com.example.hexagonal.Adapter;
+import com.example.hr.application.HrApplication;
 import com.example.hr.dto.request.HireEmployeeRequest;
 import com.example.hr.dto.response.EmployeeResponse;
-import com.example.hr.dto.response.FireEmployeeResponse;
 import com.example.hr.dto.response.HireEmployeeResponse;
 import com.example.hr.dto.response.PhotoResponse;
 import com.example.hr.service.HrService;
@@ -23,6 +24,7 @@ import com.example.hr.service.HrService;
 @RequestMapping("/employees")
 @Validated
 @CrossOrigin
+@Adapter(port=HrApplication.class)
 public class HrRestController {
 	private final HrService hrService;
 	
@@ -51,7 +53,7 @@ public class HrRestController {
 	
 	// DELETE http://localhost:7100/hr/api/v1/employees/11111111110
 	@DeleteMapping("{identity}")
-	public FireEmployeeResponse fireEmployee(@PathVariable String identity){
+	public EmployeeResponse fireEmployee(@PathVariable String identity){
 		return hrService.fireEmployee(identity);		
 	}
 }

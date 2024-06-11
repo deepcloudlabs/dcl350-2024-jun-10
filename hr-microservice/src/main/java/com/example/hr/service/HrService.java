@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.ddd.OpenHostInterface;
 import com.example.hr.application.HrApplication;
+import com.example.hr.domain.Employee;
 import com.example.hr.domain.TcKimlikNo;
 import com.example.hr.dto.request.HireEmployeeRequest;
 import com.example.hr.dto.response.EmployeeResponse;
@@ -25,26 +26,30 @@ public class HrService {
 	}
 
 	public EmployeeResponse findEmployeeByIdentity(String identity) {
-		var employee = hrApplication.findEmployee(TcKimlikNo.valueOf(identity));
+		var employee = hrApplication.findEmployee(TcKimlikNo.valueOf(identity))
+				                    .orElseThrow(() -> new IllegalArgumentException("Employee [%s] does not exist.".formatted(identity)));
 		// Employee --> EmployeeResponse: Object-to-Object Mapping
 		return modelMapper.map(employee, EmployeeResponse.class);
 	}
 
 	@Transactional
 	public HireEmployeeResponse hireEmployee(HireEmployeeRequest request) {
-		// TODO Auto-generated method stub
-		return null;
+		var employee = modelMapper.map(request, Employee.class);
+		var hiredEmployee = hrApplication.hireEmployee(employee);
+		return modelMapper.map(hiredEmployee, HireEmployeeResponse.class);
 	}
 
 	@Transactional
-	public FireEmployeeResponse fireEmployee(String identity) {
-		// TODO Auto-generated method stub
+	public EmployeeResponse fireEmployee(String identity) {
+		var employee = hrApplication.fireEmployee(TcKimlikNo.valueOf(identity))
+		                            .orElseThrow(() -> new IllegalArgumentException("Employee [%s] does not exist.".formatted(identity)));
 		return null;
 	}
 
 	public PhotoResponse getEmployeePhoto(String identity) {
-		// TODO Auto-generated method stub
-		return null;
+		var employee = hrApplication.findEmployee(TcKimlikNo.valueOf(identity))
+                .orElseThrow(() -> new IllegalArgumentException("Employee [%s] does not exist.".formatted(identity)));
+        return new PhotoResponse(employee.getPhoto().getBase64Values());
 	}
 
 }
