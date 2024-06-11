@@ -16,7 +16,7 @@ import java.util.Objects;
 
 import com.example.ddd.DomainEntity;
 
-// Entity Class: i) identity ii) persistent iii) mutable iv) business methods
+// Entity Class: i) identity ii) persistent iii) mutable -> business method iv) business methods
 @DomainEntity(id = "identity", aggregate = true)
 public class Employee {
 
@@ -108,6 +108,8 @@ public class Employee {
 			// Validation Rule
 			// Constraint
 			// Invariants
+			// Standards
+			// Regulations
 			return new Employee(this);
 		}
 

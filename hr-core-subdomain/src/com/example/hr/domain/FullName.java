@@ -6,10 +6,6 @@ import com.example.ddd.ValueObject;
 
 @ValueObject
 public record FullName(String firstName, String lastName) {
-	public FullName(String firstName, String lastName) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-	}
 
 	public static FullName of(String firstName, String lastName) {
 		requireNonNull(firstName);
