@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Objects;
 
 import com.example.hr.domain.FiatCurrency;
+import com.example.validation.Iban;
+import com.example.validation.TcKimlikNo;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -18,6 +20,7 @@ import jakarta.persistence.Table;
 @Table(name="employees")
 public class EmployeeEntity {
 	@Id
+	@TcKimlikNo
 	private String identity;
 	@Column(name="fname")
 	private String firstName;
@@ -27,6 +30,7 @@ public class EmployeeEntity {
 	private double salary;
 	@Enumerated(EnumType.ORDINAL)
 	private FiatCurrency currency;
+	@Iban
 	private String iban;
 	@ElementCollection
 	private List<String> departments;

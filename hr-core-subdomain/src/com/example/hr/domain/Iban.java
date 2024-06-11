@@ -73,6 +73,5 @@ public final class Iban {
 	public String toString() {
 		return "Iban [value=" + value + "]";
 	}
-	
-	
+
 }
