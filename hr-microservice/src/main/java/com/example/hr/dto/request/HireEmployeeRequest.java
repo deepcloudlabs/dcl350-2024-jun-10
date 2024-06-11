@@ -6,18 +6,33 @@ import com.example.ddd.DataTransferObject;
 import com.example.ddd.TransferType;
 import com.example.hr.domain.Employee;
 import com.example.hr.domain.FiatCurrency;
+import com.example.validation.Iban;
+import com.example.validation.TcKimlikNo;
+
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @DataTransferObject(value=Employee.class,type = TransferType.REQUEST)
 public class HireEmployeeRequest {
+	@TcKimlikNo
 	private String identity;
+	@NotBlank
 	private String firstName;
+	@NotBlank
 	private String lastName;
+	@Min(17_000)
 	private double salary;
+	@NotNull
 	private FiatCurrency currency;
+	@Iban
 	private String iban;
+	@NotNull
 	private List<String> departments;
+	@NotBlank
 	private String jobStyle;
 	private int birthYear;
+	@NotBlank
 	private String photo;
 
 	public String getIdentity() {

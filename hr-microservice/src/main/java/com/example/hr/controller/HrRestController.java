@@ -18,6 +18,9 @@ import com.example.hr.dto.response.EmployeeResponse;
 import com.example.hr.dto.response.HireEmployeeResponse;
 import com.example.hr.dto.response.PhotoResponse;
 import com.example.hr.service.HrService;
+import com.example.validation.TcKimlikNo;
+
+import jakarta.validation.constraints.NotBlank;
 
 @RestController
 @RequestScope
@@ -34,26 +37,26 @@ public class HrRestController {
 
 	// GET http://localhost:7100/hr/api/v1/employees/11111111110
 	@GetMapping("{identity}")
-	public EmployeeResponse findById(@PathVariable String identity){
+	public EmployeeResponse findById(@PathVariable @TcKimlikNo String identity){
 		return hrService.findEmployeeByIdentity(identity);
 	}
 	
 	// GET http://localhost:7100/hr/api/v1/employees/11111111110/photo
 	@GetMapping("{identity}/photo")
-	public PhotoResponse getEmployeePhotoById(@PathVariable String identity){
+	public PhotoResponse getEmployeePhotoById(@PathVariable @TcKimlikNo String identity){
 		return hrService.getEmployeePhoto(identity);
 	}
 	
 	// POST http://localhost:7100/hr/api/v1/employees
 	@PostMapping
-	public HireEmployeeResponse hireEmployee(@RequestBody HireEmployeeRequest request) {
+	public HireEmployeeResponse hireEmployee(@RequestBody @Validated HireEmployeeRequest request) {
 		return hrService.hireEmployee(request);
 	}
 	
 	
 	// DELETE http://localhost:7100/hr/api/v1/employees/11111111110
 	@DeleteMapping("{identity}")
-	public EmployeeResponse fireEmployee(@PathVariable String identity){
+	public EmployeeResponse fireEmployee(@PathVariable @TcKimlikNo String identity){
 		return hrService.fireEmployee(identity);		
 	}
 }
