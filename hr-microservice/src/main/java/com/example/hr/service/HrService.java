@@ -10,7 +10,6 @@ import com.example.hr.domain.Employee;
 import com.example.hr.domain.TcKimlikNo;
 import com.example.hr.dto.request.HireEmployeeRequest;
 import com.example.hr.dto.response.EmployeeResponse;
-import com.example.hr.dto.response.FireEmployeeResponse;
 import com.example.hr.dto.response.HireEmployeeResponse;
 import com.example.hr.dto.response.PhotoResponse;
 
@@ -43,7 +42,7 @@ public class HrService {
 	public EmployeeResponse fireEmployee(String identity) {
 		var employee = hrApplication.fireEmployee(TcKimlikNo.valueOf(identity))
 		                            .orElseThrow(() -> new IllegalArgumentException("Employee [%s] does not exist.".formatted(identity)));
-		return null;
+		return modelMapper.map(employee, EmployeeResponse.class);
 	}
 
 	public PhotoResponse getEmployeePhoto(String identity) {
