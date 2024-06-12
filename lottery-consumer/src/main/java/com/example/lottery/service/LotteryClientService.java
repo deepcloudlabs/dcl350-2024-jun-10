@@ -1,9 +1,11 @@
 package com.example.lottery.service;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
+@ConditionalOnProperty(name="clbStrategy", havingValue = "custom")
 public class LotteryClientService {
 	private final LotteryConsumerService lotteryConsumerService;
 
