@@ -8,6 +8,6 @@ public class HrEventListenerService {
 
 	@KafkaListener(topics = "${hrEventsTopicName}", groupId = "security-card")
 	public void listenHrEvents(String event) {
-		System.err.println("[HrEventListenerService] New hr event has arrived: %s".formatted(event));
+		System.err.println("[Kafka][HrEventListenerService] New hr event has arrived: %s".formatted(event));
 	}
 }

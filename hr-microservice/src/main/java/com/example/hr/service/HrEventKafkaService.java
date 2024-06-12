@@ -1,33 +1,31 @@
-package com.example.hr.adapter;
+package com.example.hr.service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.event.EventListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import com.example.hexagonal.Adapter;
 import com.example.hr.domain.events.HrEvent;
-import com.example.hr.infrastructure.messaging.EventPublisher;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
-@Adapter(port=EventPublisher.class)
-@ConditionalOnProperty(name = "edaStrategy", havingValue = "kafka")
-public class EventPublisherKafkaAdapter implements EventPublisher<HrEvent> {
+@ConditionalOnProperty(name = "edaStrategy", havingValue = "kafka-websocket")
+public class HrEventKafkaService {
 	private final KafkaTemplate<String, String> kafkaTemplate;
 	private final ObjectMapper objectMapper;
 	private final String hrEventsTopicName;
 	
-	public EventPublisherKafkaAdapter(KafkaTemplate<String, String> kafkaTemplate, 
+	public HrEventKafkaService(KafkaTemplate<String, String> kafkaTemplate, 
 			@Value("${hrEventsTopicName}") String hrEventsTopicName, ObjectMapper objectMapper) {
 		this.kafkaTemplate = kafkaTemplate;
 		this.objectMapper = objectMapper;
 		this.hrEventsTopicName = hrEventsTopicName;
 	}
-
-	@Override
-	public void publish(HrEvent event) {
+	
+	@EventListener
+	public void listenEvent(HrEvent event) {
 		try {
 			var eventAsString = objectMapper.writeValueAsString(event);
 			kafkaTemplate.send(hrEventsTopicName, eventAsString );
@@ -35,5 +33,4 @@ public class EventPublisherKafkaAdapter implements EventPublisher<HrEvent> {
 			System.err.println("Error while converting to json: %s".formatted(e.getMessage()));
 		}
 	}
-
 }
