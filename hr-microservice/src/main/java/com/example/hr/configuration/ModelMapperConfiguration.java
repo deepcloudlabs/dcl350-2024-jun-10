@@ -11,6 +11,7 @@ import com.example.hr.domain.FullName;
 import com.example.hr.domain.JobStyle;
 import com.example.hr.domain.Money;
 import com.example.hr.dto.request.HireEmployeeRequest;
+import com.example.hr.dto.response.EmployeeQLResponse;
 import com.example.hr.dto.response.EmployeeResponse;
 import com.example.hr.dto.response.HireEmployeeResponse;
 import com.example.hr.entity.EmployeeEntity;
@@ -88,6 +89,23 @@ public class ModelMapperConfiguration {
 				return entity;
 			};
 			
+	private static final Converter<EmployeeEntity,EmployeeQLResponse> EMPLOYEE_ENTITY_TO_EMPLOYEE_QL_RESPONSE_CONVERTER =
+			context -> {
+				var employee = context.getSource();
+				var response = new EmployeeQLResponse();
+				response.setIdentity(employee.getIdentity());
+				response.setFirstName(employee.getFirstName());
+				response.setLastName(employee.getLastName());
+				response.setSalary(employee.getSalary());
+				response.setCurrency(employee.getCurrency());
+				response.setIban(employee.getIban());
+				response.setBirthYear(employee.getBirthYear());
+				response.setDepartments(employee.getDepartments());
+				response.setJobStyle(employee.getJobStyle());
+				response.setPhoto(employee.getPhoto());
+				return response;
+			};
+			
 	private static final Converter<EmployeeEntity,Employee> EMPLOYEE_ENTITY_TO_EMPLOYEE_CONVERTER =
 			context -> {
 				var entity = context.getSource();
@@ -110,6 +128,7 @@ public class ModelMapperConfiguration {
 		modelMapper.addConverter(EMPLOYEE_TO_HIRE_EMPLOYEE_RESPONSE_CONVERTER,Employee.class, HireEmployeeResponse.class);
 		modelMapper.addConverter(EMPLOYEE_TO_EMPLOYEE_ENTITY_CONVERTER,Employee.class, EmployeeEntity.class);
 		modelMapper.addConverter(EMPLOYEE_ENTITY_TO_EMPLOYEE_CONVERTER,EmployeeEntity.class, Employee.class);
+		modelMapper.addConverter(EMPLOYEE_ENTITY_TO_EMPLOYEE_QL_RESPONSE_CONVERTER,EmployeeEntity.class, EmployeeQLResponse.class);
 		return modelMapper;
 	}
 }
