@@ -5,12 +5,14 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
 
 import com.example.lottery.dto.response.LotteryModel;
 import com.example.lottery.service.LotteryService;
 
 @Service
+@RefreshScope
 public class StandardLotteryService implements LotteryService {
 	private final int lotteryMin;
 	private final int lotteryMax;
@@ -23,6 +25,7 @@ public class StandardLotteryService implements LotteryService {
 		this.lotteryMin = lotteryMin;
 		this.lotteryMax = lotteryMax;
 		this.lotterySize = lotterySize;
+		System.err.println("Instatiating StandardLotteryService component with paramteres: %d,%d,%d".formatted(lotteryMin,lotteryMax,lotterySize));
 	}
 
 	@Override
