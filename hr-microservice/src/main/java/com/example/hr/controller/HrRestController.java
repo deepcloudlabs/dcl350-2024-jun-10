@@ -32,7 +32,7 @@ public class HrRestController {
 	public HrRestController(HrService hrService) {
 		this.hrService = hrService;
 	}
-
+    // Query Responsibility
 	// GET http://localhost:7100/hr/api/v1/employees/11111111110
 	@GetMapping("{identity}")
 	public EmployeeResponse findById(@PathVariable @TcKimlikNo String identity){
@@ -45,6 +45,7 @@ public class HrRestController {
 		return hrService.getEmployeePhoto(identity);
 	}
 	
+	// Command Responsibility
 	// POST http://localhost:7100/hr/api/v1/employees
 	@PostMapping
 	public HireEmployeeResponse hireEmployee(@RequestBody @Validated HireEmployeeRequest request) {
