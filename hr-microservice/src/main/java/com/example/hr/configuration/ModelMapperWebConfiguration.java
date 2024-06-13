@@ -10,6 +10,7 @@ import com.example.hr.domain.FullName;
 import com.example.hr.domain.JobStyle;
 import com.example.hr.domain.Money;
 import com.example.hr.dto.request.HireEmployeeRequest;
+import com.example.hr.dto.response.EmployeeQLResponse;
 import com.example.hr.dto.response.EmployeeResponse;
 import com.example.hr.dto.response.HireEmployeeResponse;
 
@@ -75,12 +76,29 @@ public class ModelMapperWebConfiguration {
 			};
 					
 
-			
+
+	private static final Converter<Employee,EmployeeQLResponse> EMPLOYEE_TO_EMPLOYEE_QL_RESPONSE_CONVERTER =
+	context -> {
+		var employee = context.getSource();
+		var response = new EmployeeQLResponse();
+		response.setIdentity(employee.getIdentity().getValue());
+		response.setFirstName(employee.getFullName().firstName());
+		response.setLastName(employee.getFullName().lastName());
+		response.setSalary(employee.getSalary().value());
+		response.setCurrency(employee.getSalary().currency());
+		response.setIban(employee.getIban().getValue());
+		response.setBirthYear(employee.getBirthYear().value());
+		response.setDepartments(employee.getDepartments().stream().map(Department::name).toList());
+		response.setJobStyle(employee.getJobStyle().name());
+		response.setPhoto(employee.getPhoto().getBase64Values());
+		return response;
+	};				
 			
 	@PostConstruct
 	void addModelMapperConverters() {
 		modelMapper.addConverter(EMPLOYEE_TO_EMPLOYEE_RESPONSE_CONVERTER,Employee.class, EmployeeResponse.class);
 		modelMapper.addConverter(HIRE_EMPLOYEE_REQUEST_TO_EMPLOYEE_CONVERTER,HireEmployeeRequest.class, Employee.class);
 		modelMapper.addConverter(EMPLOYEE_TO_HIRE_EMPLOYEE_RESPONSE_CONVERTER,Employee.class, HireEmployeeResponse.class);
+		modelMapper.addConverter(EMPLOYEE_TO_EMPLOYEE_QL_RESPONSE_CONVERTER,Employee.class, EmployeeQLResponse.class);
 	}
 }

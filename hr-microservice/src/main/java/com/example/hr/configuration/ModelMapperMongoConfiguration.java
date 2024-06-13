@@ -16,7 +16,7 @@ import com.example.hr.dto.response.EmployeeQLResponse;
 import jakarta.annotation.PostConstruct;
 
 @Configuration
-@ConditionalOnProperty(name="persistenceStratgey", havingValue = "mongodb")
+@ConditionalOnProperty(name="persistenceStrategy", havingValue = "mongodb")
 public class ModelMapperMongoConfiguration {
 	private final ModelMapper modelMapper;
 	

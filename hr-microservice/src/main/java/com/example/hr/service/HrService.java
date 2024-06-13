@@ -10,6 +10,7 @@ import com.example.hr.application.HrApplication;
 import com.example.hr.domain.Employee;
 import com.example.hr.domain.TcKimlikNo;
 import com.example.hr.dto.request.HireEmployeeRequest;
+import com.example.hr.dto.response.EmployeeQLResponse;
 import com.example.hr.dto.response.EmployeeResponse;
 import com.example.hr.dto.response.HireEmployeeResponse;
 import com.example.hr.dto.response.PhotoResponse;
@@ -50,6 +51,12 @@ public class HrService {
 		var employee = hrApplication.findEmployee(TcKimlikNo.valueOf(identity))
                 .orElseThrow(() -> new IllegalArgumentException("Employee [%s] does not exist.".formatted(identity)));
         return new PhotoResponse(employee.getPhoto().getBase64Values());
+	}
+
+	public EmployeeQLResponse findEmployeeQLResponseByIdentity(String identity) {
+		var employee = hrApplication.findEmployee(TcKimlikNo.valueOf(identity))
+                                    .orElseThrow(() -> new IllegalArgumentException("Employee [%s] does not exist.".formatted(identity)));
+		return modelMapper.map(employee,EmployeeQLResponse.class);
 	}
 
 }

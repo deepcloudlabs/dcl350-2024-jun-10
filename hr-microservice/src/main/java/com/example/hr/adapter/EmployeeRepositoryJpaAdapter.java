@@ -18,7 +18,7 @@ import com.example.hr.repository.EmployeeEntityRepository;
 
 @Repository
 @Adapter(port = EmployeeRepository.class)
-@ConditionalOnProperty(name="persistenceStratgey", havingValue = "jpa")
+@ConditionalOnProperty(name="persistenceStrategy", havingValue = "jpa")
 public class EmployeeRepositoryJpaAdapter implements EmployeeRepository {
 	private final EmployeeEntityRepository employeeEntityRepository;
 	private final ModelMapper modelMapper;

@@ -16,7 +16,7 @@ import com.example.hr.entity.EmployeeEntity;
 import jakarta.annotation.PostConstruct;
 
 @Configuration
-@ConditionalOnProperty(name="persistenceStratgey", havingValue = "jpa")
+@ConditionalOnProperty(name="persistenceStrategy", havingValue = "jpa")
 public class ModelMapperJpaConfiguration {
 	private final ModelMapper modelMapper;
 	

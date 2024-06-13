@@ -15,7 +15,7 @@ import com.example.hr.repository.EmployeeDocumentRepository;
 
 @Repository
 @Adapter(port = EmployeeRepository.class)
-@ConditionalOnProperty(name="persistenceStratgey", havingValue = "mongodb")
+@ConditionalOnProperty(name="persistenceStrategy", havingValue = "mongodb")
 public class EmployeeRepositoryMongoAdapter implements EmployeeRepository {
 	private final EmployeeDocumentRepository employeeDocumentRepository;
 	private final ModelMapper modelMapper;
