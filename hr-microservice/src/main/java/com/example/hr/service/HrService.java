@@ -2,6 +2,7 @@ package com.example.hr.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.ddd.OpenHostInterface;
@@ -38,7 +39,7 @@ public class HrService {
 		return modelMapper.map(hiredEmployee, HireEmployeeResponse.class);
 	}
 
-	@Transactional
+	@Transactional(propagation = Propagation.REQUIRED)
 	public EmployeeResponse fireEmployee(String identity) {
 		var employee = hrApplication.fireEmployee(TcKimlikNo.valueOf(identity))
 		                            .orElseThrow(() -> new IllegalArgumentException("Employee [%s] does not exist.".formatted(identity)));

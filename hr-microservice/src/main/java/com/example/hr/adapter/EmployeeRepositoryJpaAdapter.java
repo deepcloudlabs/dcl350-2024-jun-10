@@ -3,7 +3,10 @@ package com.example.hr.adapter;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.hexagonal.Adapter;
@@ -15,6 +18,7 @@ import com.example.hr.repository.EmployeeEntityRepository;
 
 @Repository
 @Adapter(port = EmployeeRepository.class)
+@ConditionalOnProperty(name="persistenceStratgey", havingValue = "jpa")
 public class EmployeeRepositoryJpaAdapter implements EmployeeRepository {
 	private final EmployeeEntityRepository employeeEntityRepository;
 	private final ModelMapper modelMapper;
@@ -36,14 +40,14 @@ public class EmployeeRepositoryJpaAdapter implements EmployeeRepository {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(isolation = Isolation.SERIALIZABLE)
 	public Employee persist(Employee employee) {
 		var entity = modelMapper.map(employee, EmployeeEntity.class);
 		return modelMapper.map(employeeEntityRepository.save(entity), Employee.class);
 	}
 
 	@Override
-	@Transactional
+	@Transactional(isolation = Isolation.SERIALIZABLE,propagation = Propagation.MANDATORY)
 	public Optional<Employee> remove(Employee employee) {
 		var identity = employee.getIdentity().getValue();
 		var entity = employeeEntityRepository.findById(identity);
