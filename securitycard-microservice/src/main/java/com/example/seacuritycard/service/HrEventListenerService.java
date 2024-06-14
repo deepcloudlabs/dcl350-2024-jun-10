@@ -10,4 +10,9 @@ public class HrEventListenerService {
 	public void listenHrEvents(String event) {
 		System.err.println("[Kafka][HrEventListenerService] New hr event has arrived: %s".formatted(event));
 	}
+
+	@KafkaListener(topics = "crm-events", groupId = "security-card")
+	public void listenCrmEvents(String event) {
+		System.err.println("[Kafka][CrmEventListenerService] New crm event has arrived: %s".formatted(event));
+	}
 }

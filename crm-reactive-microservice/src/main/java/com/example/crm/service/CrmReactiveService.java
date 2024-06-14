@@ -53,7 +53,8 @@ public class CrmReactiveService {
 	public Mono<CustomerDocument> releaseCustomer(String email) {
 		return customerRepository.findById(email)
 		                  .doOnSuccess( customer -> {
-		                	  customerRepository.delete(customer).doOnSuccess((e) -> {
+		                	  customerRepository.deleteById(customer.getEmail()).doOnSuccess((e) -> {
+		                		  System.err.println("%s is deleted".formatted(customer));
 		                		  try {
 		                			var event = new CustomerReleasedEvent(email);
 									var eventAsJson = objectMapper.writeValueAsString(event);
@@ -61,7 +62,7 @@ public class CrmReactiveService {
 								} catch (JsonProcessingException ex) {
 									System.err.println("Error has occured while processing the event: %s".formatted(ex.getMessage()));
 								}
-		                	  });
+		                	  }).doOnError(err -> System.err.println(err));
 		                  });
 	}
 
